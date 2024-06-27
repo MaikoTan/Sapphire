@@ -38,7 +38,7 @@ jobs:
     runs-on: windows-2019
       
     steps:
-    - uses: actions/checkout@v3.3.0
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: Enable Developer Command Prompt
@@ -53,3 +53,11 @@ jobs:
         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl
     - name: build sapphire
       run: cd build && ninja
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: sapphire-${{ matrix.buildType }}
+        path: "./build"
+        retention-days: 1
+        compression-level: 9
